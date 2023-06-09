@@ -8,6 +8,8 @@ const AddPost = () => {
   const [title, setTitle] = React.useState<string>('');
   const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
 
+  let toastPostId: string;
+
   const { mutate } = useMutation(
     async (title: string) =>
       await axios.post('/api/posts/AddPost', {
@@ -18,6 +20,7 @@ const AddPost = () => {
         setIsDisabled(true);
 
         if (error instanceof AxiosError) {
+          toast.dismiss(toastPostId);
           toast.error(error?.response?.data?.message);
         }
 
@@ -25,18 +28,19 @@ const AddPost = () => {
       },
 
       onSuccess: (data) => {
+        toast.dismiss(toastPostId);
         toast.success('Post has been made 🔥');
         setTitle('');
         setIsDisabled(false);
-        console.log(data);
       },
     }
   );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsDisabled(true);
+    toastPostId = toast.loading('Creating your post');
 
+    setIsDisabled(true);
     mutate(title);
   };
 
@@ -47,7 +51,7 @@ const AddPost = () => {
     >
       <div>
         <textarea
-          className='bg-gray-200 p-4 text-lg rounded-md my-2 w-full'
+          className='bg-gray-200 p-4 text-lg rounded-md my-2 w-full focus:outline-none'
           name='title'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
