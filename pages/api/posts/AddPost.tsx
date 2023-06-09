@@ -44,12 +44,10 @@ export default async function handler(
       });
       res.status(200).json(result);
     } catch (error) {
-      return res
-        .status(403)
-        .json({
-          message: 'Error has occured whilst making a post',
-          err: error,
-        });
+      return res.status(403).json({
+        message: 'Error has occured whilst making a post',
+        err: error,
+      });
     }
   }
 }

@@ -1,7 +1,8 @@
 'use client';
 import React from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
 
 const AddPost = () => {
   const [title, setTitle] = React.useState<string>('');
@@ -15,10 +16,16 @@ const AddPost = () => {
     {
       onError: (error) => {
         setIsDisabled(true);
-        console.log(error);
+
+        if (error instanceof AxiosError) {
+          toast.error(error?.response?.data?.message);
+        }
+
+        setIsDisabled(false);
       },
 
       onSuccess: (data) => {
+        toast.success('Post has been made 🔥');
         setTitle('');
         setIsDisabled(false);
         console.log(data);
