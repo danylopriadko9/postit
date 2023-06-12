@@ -14,7 +14,7 @@ export interface IPost {
   published: boolean;
   userId: string;
   user: IUser;
-  comments: IComment[];
+  comments?: IComment[];
 }
 
 export interface IComment {

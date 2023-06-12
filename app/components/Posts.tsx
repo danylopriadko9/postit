@@ -1,5 +1,6 @@
 'use client';
 
+import { IComment } from '@/types/post';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -9,10 +10,10 @@ interface IProps {
   title: string;
   name: string;
   id: string;
-  commentsQty: number;
+  comments?: IComment[];
 }
 
-const Posts: React.FC<IProps> = ({ avatar, title, name, id, commentsQty }) => {
+const Posts: React.FC<IProps> = ({ avatar, title, name, id, comments }) => {
   return (
     <div className='bg-white my-8 p-8 rounded-lg'>
       <div className='flex items-center gap-2'>
@@ -31,7 +32,7 @@ const Posts: React.FC<IProps> = ({ avatar, title, name, id, commentsQty }) => {
       <div className=' flex gap-4 cursor-pointer items-center'>
         <Link href={`/post/${id}`}>
           <p className='font-bold text-sm text-gray-700 '>
-            Comments {commentsQty}
+            {comments?.length || 0} Comments
           </p>
         </Link>
       </div>
