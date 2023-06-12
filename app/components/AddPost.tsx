@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 const AddPost = () => {
   const [title, setTitle] = React.useState<string>('');
   const [isDisabled, setIsDisabled] = React.useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   let toastPostId: string;
 
@@ -31,6 +32,7 @@ const AddPost = () => {
         toast.dismiss(toastPostId);
         toast.success('Post has been made 🔥');
         setTitle('');
+        queryClient.invalidateQueries(['posts']);
         setIsDisabled(false);
       },
     }
